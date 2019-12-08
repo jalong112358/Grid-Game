@@ -20,12 +20,15 @@ main {
   align-items: flex-start;
 }
 
-/* @media (max-width: 955px) {
+@media (max-width: 825px) {
   main {
     flex-direction: column-reverse;
     align-items: center;
   }
-} */
+  body {
+    padding: 0;
+  }
+}
 
 p {
   font-size: 14px;
