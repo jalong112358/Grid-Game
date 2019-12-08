@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 50px;
+  background-color: #1d1f20;
+}
+
+main {
+  margin: 0 auto;
+  margin-top: 25px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* @media (max-width: 955px) {
+  main {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+} */
+
+p {
+  font-size: 14px;
+}
