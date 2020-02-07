@@ -1,5 +1,5 @@
 import React from "react";
-import { Context } from "../../contexts/Context";
+import { Context } from "../../Context";
 import "./modal.css";
 
 export default function Success() {

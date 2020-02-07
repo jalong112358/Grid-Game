@@ -7,7 +7,7 @@ class ContextProvider extends Component {
     currentLvl: 1,
     lvlData: {},
     checkpointPosition: [10, 10],
-    gameLoopOn: false,
+    moveBlockOn: false,
     directions: [],
     currentPositionX: 1,
     currentPositionY: 1,
@@ -17,12 +17,54 @@ class ContextProvider extends Component {
     success: false
   };
 
+  componentDidMount() {
+    this.getLevelData();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.moveBlockOn !== this.state.moveBlockOn) {
+      if (this.state.moveBlockOn) {
+        this.setPathToMove();
+      }
+    }
+    if (prevState.currentPathIteration !== this.state.currentPathIteration) {
+      if (this.state.currentPathIteration !== 0) {
+        this.moveBlock();
+      }
+    }
+  }
+
+  // Grabs a JSON file that contain data for the current level and sets the data to state
+  getLevelData = () => {
+    let lvlData = JSON.parse(
+      JSON.stringify(require(`./lvlData/${this.state.currentLvl}.json`))
+    );
+
+    this.setState({
+      lvlData: lvlData
+    });
+  };
+
+  // Level Controls
+
+  toggleSuccess = () => {
+    this.setState({
+      success: true
+    });
+  };
+  toggleFail = () => {
+    this.setState({
+      fail: true
+    });
+  };
+
+  // Resets state to default values and changes the "currentLvl" state variable accordingly
   nextLevel = () => {
     this.setState(
       {
         currentLvl: this.state.currentLvl + 1,
         lvlData: {},
-        gameLoopOn: false,
+        moveBlockOn: false,
         directions: [],
         currentPositionX: 1,
         currentPositionY: 1,
@@ -41,7 +83,7 @@ class ContextProvider extends Component {
       {
         currentLvl: this.state.currentLvl,
         lvlData: {},
-        gameLoopOn: false,
+        moveBlockOn: false,
         directions: [],
         currentPositionX: 1,
         currentPositionY: 1,
@@ -56,32 +98,10 @@ class ContextProvider extends Component {
     );
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.gameLoopOn !== this.state.gameLoopOn) {
-      if (this.state.gameLoopOn) {
-        this.setPathToMove();
-      }
-    }
-    if (prevState.currentPathIteration !== this.state.currentPathIteration) {
-      if (this.state.currentPathIteration !== 0) {
-        this.gameLoop();
-      }
-    }
-  }
-
-  toggleSuccess = () => {
-    this.setState({
-      success: true
-    });
-  };
-  toggleFail = () => {
-    this.setState({
-      fail: true
-    });
-  };
-
+  // This function converts the users direction inputs into a path that the block will move.
+  // Once the path is created, moveBlock() is called, which handles the block's movement
   setPathToMove = () => {
-    let {
+    const {
       directions,
       lvlData,
       currentPositionX,
@@ -90,112 +110,107 @@ class ContextProvider extends Component {
     let x = currentPositionX;
     let y = currentPositionY;
     let pathToMove = [];
+    const { walls } = lvlData;
 
-    for (let i = 0; i < directions.length; i++) {
-      switch (directions[i]) {
+    // Iterates over every direction that the user inputs
+    directions.forEach(direction => {
+      let closestBlock = null;
+      switch (direction) {
         // UP
         case 0:
-          let closestBlockUp = null;
-          for (let i = 0; i < lvlData.walls.length; i++) {
-            if (lvlData.walls[i].x == x && lvlData.walls[i].y < y) {
-              let numToIncrement = y - lvlData.walls[i].y - 1;
-              if (closestBlockUp == null || numToIncrement < closestBlockUp) {
-                closestBlockUp = numToIncrement;
+          // Checks for walls ABOVE the block's current position to decide how far to move up
+          for (let i = 0; i < walls.length; i++) {
+            if (walls[i].x == x && walls[i].y < y) {
+              let numToIncrement = y - walls[i].y - 1;
+              if (closestBlock == null || numToIncrement < closestBlock) {
+                closestBlock = numToIncrement;
               }
-            } else if (closestBlockUp == null) {
-              closestBlockUp = y - 1;
+            } else if (closestBlock == null) {
+              closestBlock = y - 1;
             }
           }
           pathToMove.push({
             direction: "up",
-            increment: closestBlockUp
+            increment: closestBlock
           });
-          y = y - closestBlockUp;
+          y = y - closestBlock;
           break;
         // RIGHT
         case 1:
           console.log(pathToMove);
-          let closestBlockRight = null;
-          for (let i = 0; i < lvlData.walls.length; i++) {
-            if (lvlData.walls[i].y == y && lvlData.walls[i].x > x) {
-              let numToIncrement = lvlData.walls[i].x - x - 1;
-              if (
-                closestBlockRight == null ||
-                numToIncrement < closestBlockRight
-              ) {
-                closestBlockRight = numToIncrement;
+
+          // Checks for walls to the RIGHT the block's current position to decide how far to move up
+          for (let i = 0; i < walls.length; i++) {
+            if (walls[i].y == y && walls[i].x > x) {
+              let numToIncrement = walls[i].x - x - 1;
+              if (closestBlock == null || numToIncrement < closestBlock) {
+                closestBlock = numToIncrement;
               }
-            } else if (closestBlockRight == null) {
-              closestBlockRight = 10 - x;
+            } else if (closestBlock == null) {
+              closestBlock = 10 - x;
             }
           }
           pathToMove.push({
             direction: "right",
-            increment: closestBlockRight
+            increment: closestBlock
           });
-          x = x + closestBlockRight;
+          x = x + closestBlock;
           break;
         // DOWN
         case 2:
-          let closestBlockDown = null;
-
-          for (let i = 0; i < lvlData.walls.length; i++) {
-            if (lvlData.walls[i].x == x && lvlData.walls[i].y > y) {
-              let numToIncrement = lvlData.walls[i].y - y - 1;
-              if (
-                closestBlockDown == null ||
-                numToIncrement < closestBlockDown
-              ) {
-                closestBlockDown = numToIncrement;
+          // Checks for walls BELOW the block's current position to decide how far to move up
+          for (let i = 0; i < walls.length; i++) {
+            if (walls[i].x == x && walls[i].y > y) {
+              let numToIncrement = walls[i].y - y - 1;
+              if (closestBlock == null || numToIncrement < closestBlock) {
+                closestBlock = numToIncrement;
               }
-            } else if (closestBlockDown == null) {
-              closestBlockDown = 10 - y;
+            } else if (closestBlock == null) {
+              closestBlock = 10 - y;
             }
           }
           pathToMove.push({
             direction: "down",
-            increment: closestBlockDown
+            increment: closestBlock
           });
-          y = y + closestBlockDown;
+          y = y + closestBlock;
           break;
         // LEFT
         case 3:
-          let closestBlockLeft = null;
-          for (let i = 0; i < lvlData.walls.length; i++) {
-            if (lvlData.walls[i].y == y && lvlData.walls[i].x < x) {
-              let numToIncrement = x - lvlData.walls[i].x - 1;
-              if (
-                closestBlockLeft == null ||
-                numToIncrement < closestBlockLeft
-              ) {
-                closestBlockLeft = numToIncrement;
+          // Checks for walls to the LEFT of the block's current position to decide how far to move up
+          for (let i = 0; i < walls.length; i++) {
+            if (walls[i].y == y && walls[i].x < x) {
+              let numToIncrement = x - walls[i].x - 1;
+              if (closestBlock == null || numToIncrement < closestBlock) {
+                closestBlock = numToIncrement;
               }
-            } else if (closestBlockLeft == null) {
-              closestBlockLeft = x - 1;
+            } else if (closestBlock == null) {
+              closestBlock = x - 1;
             }
           }
           pathToMove.push({
             direction: "left",
-            increment: closestBlockLeft
+            increment: closestBlock
           });
-          x = x - closestBlockLeft;
+          x = x - closestBlock;
           break;
         default:
       }
-    }
+    });
 
     this.setState(
       {
         pathToMove: pathToMove
       },
       () => {
-        this.gameLoop();
+        this.moveBlock();
         console.log(this.state.pathToMove);
       }
     );
   };
 
-  gameLoop = () => {
+  // Animates the block's movement along the path created by setPathToMove()
+  moveBlock = () => {
     if (this.state.currentPathIteration < this.state.pathToMove.length) {
       let { pathToMove, currentPathIteration } = this.state;
       let direction = pathToMove[currentPathIteration].direction;
@@ -244,29 +259,15 @@ class ContextProvider extends Component {
     }
   };
 
-  getLevelData = () => {
-    let lvlData = JSON.parse(
-      JSON.stringify(require(`../lvlData/${this.state.currentLvl}.json`))
-    );
-
-    this.setState({
-      lvlData: lvlData
-    });
-  };
-
   updateDirections = val => {
     this.setState({
       directions: [...this.state.directions, val]
     });
   };
 
-  componentDidMount() {
-    this.getLevelData();
-  }
-
-  turnOnGameLoop = () => {
+  turnOnMoveBlock = () => {
     this.setState({
-      gameLoopOn: true
+      moveBlockOn: true
     });
   };
   render() {
@@ -275,7 +276,7 @@ class ContextProvider extends Component {
         value={{
           ...this.state,
           updateDirections: this.updateDirections,
-          turnOnGameLoop: this.turnOnGameLoop,
+          turnOnMoveBlock: this.turnOnMoveBlock,
           nextLevel: this.nextLevel,
           restartLevel: this.restartLevel
         }}

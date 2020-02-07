@@ -1,5 +1,5 @@
 import React from "react";
-import { Context } from "../../contexts/Context";
+import { Context } from "../../Context";
 
 export default function Checkpoint(props) {
   // console.log(props.position);

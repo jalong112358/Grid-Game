@@ -4,7 +4,7 @@ import GameBoard from "./components/gameBoard/GameBoard";
 
 import Modal from "./components/modals/Modal";
 
-import ContextProvider from "./contexts/Context";
+import ContextProvider from "./Context";
 
 import "./App.css";
 

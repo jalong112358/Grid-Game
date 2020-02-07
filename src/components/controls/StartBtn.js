@@ -1,15 +1,15 @@
 import React from "react";
 
-import { Context } from "../../contexts/Context";
+import { Context } from "../../Context";
 
 export default function StartBtn() {
   return (
     <Context.Consumer>
       {context => {
-        const { turnOnGameLoop } = context;
+        const { turnOnMoveBlock } = context;
 
         return (
-          <button onClick={turnOnGameLoop} id="start-btn">
+          <button onClick={turnOnMoveBlock} id="start-btn">
             SEQUENCE START
           </button>
         );
