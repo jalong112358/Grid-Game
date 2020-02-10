@@ -15,7 +15,7 @@ function Walls(props) {
             width="50"
             opacity=".75"
           >
-            <rect width="43" height="43" fill="#CBCD31" />
+            <rect width="43" height="43" fill="#7E7E7E" />
           </svg>
         ))}
     </div>

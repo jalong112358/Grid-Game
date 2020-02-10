@@ -45,6 +45,17 @@
 .modal button:hover {
   background-color: rgba(165, 165, 165, 0.569);
 }
+.highlight {
+  background: rgb(55, 55, 55);
+  padding: 0 5px;
+}
+.green {
+  color: rgba(34, 133, 70, 0.751);
+}
+
+.blue {
+  color: rgb(0, 115, 198);
+}
 
 #game-info {
   width: 250px;

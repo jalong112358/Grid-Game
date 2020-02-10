@@ -10,8 +10,13 @@ export default function DefaultModal() {
 
         return (
           <div id="default-modal" className="modal">
-            <h1>Welcome</h1>
-            <p>jkivgaeybeavb</p>
+            <h1>Directions</h1>
+            <p>
+              Use the controls below to set a path for the{" "}
+              <span className="highlight blue">blue</span> square to travel.
+              Once your path is set, select{" "}
+              <span className="highlight green">Sequence Start</span>.
+            </p>
           </div>
         );
       }}

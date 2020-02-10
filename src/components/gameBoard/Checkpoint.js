@@ -13,9 +13,9 @@ export default function Checkpoint(props) {
       }}
       height="50"
       width="50"
-      opacity=".5"
+      opacity=".85"
     >
-      <rect width="43" height="43" fill="#228547" />
+      <rect width="43" height="43" fill="#f0d000" />
     </svg>
   );
 }
