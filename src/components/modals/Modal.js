@@ -5,6 +5,7 @@ import "./modal.css";
 import Fail from "./Fail";
 import Success from "./Success";
 import GameInfo from "./GameInfo";
+import DefaultModal from "./DefaultModal";
 
 export default function Modal() {
   return (
@@ -16,7 +17,7 @@ export default function Modal() {
           <div id="modal-area">
             <div className="modal-box">
               {" "}
-              {fail ? <Fail /> : success ? <Success /> : null}
+              {fail ? <Fail /> : success ? <Success /> : <DefaultModal />}
             </div>
 
             <GameInfo />

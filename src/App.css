@@ -19,6 +19,13 @@ main {
   justify-content: center;
   align-items: flex-start;
 }
+h1 {
+  color: #a9a9a9;
+}
+p {
+  font-size: 18px;
+  color: #a9a9a9;
+}
 
 @media (max-width: 825px) {
   main {
@@ -28,8 +35,4 @@ main {
   body {
     padding: 0;
   }
-}
-
-p {
-  font-size: 14px;
 }

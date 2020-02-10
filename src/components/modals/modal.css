@@ -19,23 +19,31 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
-.modal h1 {
-  color: white;
+
+#success h1 {
+  color: rgba(34, 133, 70, 0.751);
+  margin-bottom: 25px;
+}
+#fail h1 {
+  color: rgb(154, 22, 22);
   margin-bottom: 25px;
 }
 
 .modal button {
   height: 35px;
   padding: 0 25px;
-
-  background-color: rgb(34, 70, 133);
+  border-radius: 5px;
+  background-color: rgba(165, 165, 165, 0.269);
   color: white;
   font-size: 18px;
   letter-spacing: 3px;
   border: none;
+}
+.modal button:hover {
+  background-color: rgba(165, 165, 165, 0.569);
 }
 
 #game-info {
@@ -43,8 +51,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(24, 24, 24);
+  align-items: flex-end;
+  justify-content: flex-start;
+
   color: #a9a9a9;
 }

@@ -9,11 +9,7 @@ export default function Fail() {
         const { restartLevel } = context;
 
         return (
-          <div
-            id="fail"
-            className="modal"
-            style={{ backgroundColor: "#522626" }}
-          >
+          <div id="fail" className="modal">
             <h1>LEVEL FAILED</h1>
             <button onClick={restartLevel}>RESTART</button>
           </div>

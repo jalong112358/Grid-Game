@@ -270,6 +270,13 @@ class ContextProvider extends Component {
       moveBlockOn: true
     });
   };
+
+  clearBoard = () => {
+    this.setState({
+      directions: []
+    });
+  };
+
   render() {
     return (
       <Context.Provider
@@ -278,7 +285,8 @@ class ContextProvider extends Component {
           updateDirections: this.updateDirections,
           turnOnMoveBlock: this.turnOnMoveBlock,
           nextLevel: this.nextLevel,
-          restartLevel: this.restartLevel
+          restartLevel: this.restartLevel,
+          clearBoard: this.clearBoard
         }}
       >
         {this.props.children}
