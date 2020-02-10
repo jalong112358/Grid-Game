@@ -8,7 +8,7 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 50px;
-  background-color: #1d1f20;
+  background-color: #181818;
 }
 
 main {
@@ -25,6 +25,8 @@ h1 {
 p {
   font-size: 18px;
   color: #a9a9a9;
+  margin-top: 10px;
+  line-height: 26px;
 }
 
 @media (max-width: 825px) {

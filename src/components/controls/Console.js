@@ -19,48 +19,48 @@ export default function Console() {
                     case 0:
                       return (
                         <svg
-                          height="40"
-                          width="40"
-                          fill="#434343"
+                          height="20"
+                          width="20"
+                          fill="#228547"
                           style={{ margin: "10px" }}
                         >
-                          <path d="M20 0 L40 40 L0 40 Z" />
+                          <path d="M10 0 L20 20 L0 20 Z" />
                         </svg>
                       );
                       break;
                     case 1:
                       return (
                         <svg
-                          height="40"
-                          width="40"
-                          fill="#434343"
+                          height="20"
+                          width="20"
+                          fill="#228547"
                           style={{ margin: "10px" }}
                         >
-                          <path d="M0 0 L40 20 L0 40 Z" />
+                          <path d="M0 0 L20 10 L0 20 Z" />
                         </svg>
                       );
                       break;
                     case 2:
                       return (
                         <svg
-                          height="40"
-                          width="40"
-                          fill="#434343"
+                          height="20"
+                          width="20"
+                          fill="#228547"
                           style={{ margin: "10px" }}
                         >
-                          <path d="M0 0 L40 0 L20 40 Z" />
+                          <path d="M0 0 L20 0 L10 20 Z" />
                         </svg>
                       );
                       break;
                     case 3:
                       return (
                         <svg
-                          height="40"
-                          width="40"
-                          fill="#434343"
+                          height="20"
+                          width="20"
+                          fill="#228547"
                           style={{ margin: "10px" }}
                         >
-                          <path d="M0 20 L40 0 L40 40 Z" />
+                          <path d="M0 10 L20 0 L20 20 Z" />
                         </svg>
                       );
                       break;

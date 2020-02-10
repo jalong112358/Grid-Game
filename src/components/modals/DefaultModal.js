@@ -12,10 +12,11 @@ export default function DefaultModal() {
           <div id="default-modal" className="modal">
             <h1>Directions</h1>
             <p>
-              Use the controls below to set a path for the{" "}
-              <span className="highlight blue">blue</span> square to travel.
-              Once your path is set, select{" "}
-              <span className="highlight green">Sequence Start</span>.
+              Move the <span className="highlight blue">blue</span> square to
+              the <span className="highlight yellow">yellow</span> square using
+              the controls below. Once your path is set, select{" "}
+              <span className="highlight green">Sequence Start</span> to run the
+              program.
             </p>
           </div>
         );

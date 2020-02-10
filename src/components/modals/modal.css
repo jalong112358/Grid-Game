@@ -52,7 +52,9 @@
 .green {
   color: rgba(34, 133, 70, 0.751);
 }
-
+.yellow {
+  color: rgb(240, 208, 0);
+}
 .blue {
   color: rgb(0, 115, 198);
 }
