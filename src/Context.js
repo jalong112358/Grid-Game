@@ -31,7 +31,6 @@ class ContextProvider extends Component {
       lvlData: lvlData,
       time: lvlData.time
     });
-    this.timer();
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,6 +43,12 @@ class ContextProvider extends Component {
       if (this.state.currentPathIteration !== 0) {
         this.moveBlock();
       }
+    }
+    if (
+      prevState.directions.length === 0 &&
+      this.state.directions.length !== 0
+    ) {
+      this.timer();
     }
   }
 
@@ -172,6 +177,7 @@ class ContextProvider extends Component {
           currentPathIteration: this.state.currentPathIteration + 1
         });
       }, 350);
+      // Check if level is complete
     } else if (
       this.state.currentPositionX === this.state.checkpointPosition[0] &&
       this.state.currentPositionY === this.state.checkpointPosition[1]
