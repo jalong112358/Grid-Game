@@ -6,12 +6,15 @@ export default function Fail() {
   return (
     <Context.Consumer>
       {context => {
-        const { restartLevel } = context;
+        const { restartLevel, fail } = context;
 
         return (
           <div id="fail" className="modal">
             <h1>LEVEL FAILED</h1>
-            <button onClick={restartLevel}>RESTART</button>
+            <p>{fail.message}</p>
+            <button onClick={restartLevel} style={{ marginTop: "10px" }}>
+              RESTART
+            </button>
           </div>
         );
       }}

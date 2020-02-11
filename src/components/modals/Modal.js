@@ -14,10 +14,22 @@ export default function Modal() {
         const { fail, success } = context;
 
         return (
-          <div id="modal-area">
+          <div
+            id="modal-area"
+            style={{
+              top: fail.status || success ? "300px" : "0",
+              padding: fail.status || success ? "0 220px" : "0"
+            }}
+          >
             <div className="modal-box">
               {" "}
-              {fail ? <Fail /> : success ? <Success /> : <DefaultModal />}
+              {fail.status ? (
+                <Fail />
+              ) : success ? (
+                <Success />
+              ) : (
+                <DefaultModal />
+              )}
             </div>
 
             <GameInfo />

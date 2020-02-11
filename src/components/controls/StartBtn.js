@@ -6,10 +6,10 @@ export default function StartBtn() {
   return (
     <Context.Consumer>
       {context => {
-        const { turnOnMoveBlock } = context;
+        const { runGame } = context;
 
         return (
-          <button onClick={turnOnMoveBlock} id="start-btn">
+          <button onClick={runGame} id="start-btn">
             SEQUENCE START
           </button>
         );

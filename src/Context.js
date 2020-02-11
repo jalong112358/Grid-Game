@@ -8,18 +8,31 @@ class ContextProvider extends Component {
     lvlData: {},
     checkpointPosition: [10, 10],
     moveBlockOn: false,
+    time: 0,
     directions: [],
     currentPositionX: 1,
     currentPositionY: 1,
     pathToMove: [],
     currentPathIteration: 0,
     modal: false,
-    success: false
+    success: false,
+    fail: { status: false, message: null }
   };
 
   componentDidMount() {
     this.getLevelData();
   }
+
+  // Grabs a JSON file that contain data for the current level and sets the data to state
+  getLevelData = () => {
+    let lvlData = require(`./lvlData/${this.state.currentLvl}.js`);
+
+    this.setState({
+      lvlData: lvlData,
+      time: lvlData.time
+    });
+    this.timer();
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.moveBlockOn !== this.state.moveBlockOn) {
@@ -33,70 +46,6 @@ class ContextProvider extends Component {
       }
     }
   }
-
-  // Grabs a JSON file that contain data for the current level and sets the data to state
-  getLevelData = () => {
-    let lvlData = JSON.parse(
-      JSON.stringify(require(`./lvlData/${this.state.currentLvl}.json`))
-    );
-
-    this.setState({
-      lvlData: lvlData
-    });
-  };
-
-  // Level Controls
-
-  toggleSuccess = () => {
-    this.setState({
-      success: true
-    });
-  };
-  toggleFail = () => {
-    this.setState({
-      fail: true
-    });
-  };
-
-  // Resets state to default values and changes the "currentLvl" state variable accordingly
-  nextLevel = () => {
-    this.setState(
-      {
-        currentLvl: this.state.currentLvl + 1,
-        lvlData: {},
-        moveBlockOn: false,
-        directions: [],
-        currentPositionX: 1,
-        currentPositionY: 1,
-        currentPathIteration: 0,
-        pathToMove: [],
-        fail: false,
-        success: false
-      },
-      () => {
-        this.getLevelData();
-      }
-    );
-  };
-  restartLevel = () => {
-    this.setState(
-      {
-        currentLvl: this.state.currentLvl,
-        lvlData: {},
-        moveBlockOn: false,
-        directions: [],
-        currentPositionX: 1,
-        currentPositionY: 1,
-        currentPathIteration: 0,
-        pathToMove: [],
-        fail: false,
-        success: false
-      },
-      () => {
-        this.getLevelData();
-      }
-    );
-  };
 
   // This function converts the users direction inputs into a path that the block will move.
   // Once the path is created, moveBlock() is called, which handles the block's movement
@@ -222,14 +171,14 @@ class ContextProvider extends Component {
         this.setState({
           currentPathIteration: this.state.currentPathIteration + 1
         });
-      }, 500);
+      }, 350);
     } else if (
       this.state.currentPositionX === this.state.checkpointPosition[0] &&
       this.state.currentPositionY === this.state.checkpointPosition[1]
     ) {
       this.toggleSuccess();
     } else {
-      this.toggleFail();
+      this.toggleFail("You did not reach the yellow square.");
     }
   };
 
@@ -259,13 +208,80 @@ class ContextProvider extends Component {
     }
   };
 
+  // Level Controls
+  toggleSuccess = () => {
+    this.setState({
+      success: true
+    });
+  };
+  toggleFail = message => {
+    this.setState({
+      fail: { status: true, message: message }
+    });
+  };
+
+  timer = () => {
+    let loop = setInterval(() => {
+      if (this.state.moveBlockOn) {
+        clearInterval(loop);
+      } else if (this.state.time !== 0) {
+        this.setState({
+          time: this.state.time - 1
+        });
+      } else if (this.state.time === 0) {
+        clearInterval(loop);
+        this.toggleFail("You ran out of time.");
+      }
+    }, 1000);
+  };
+
+  // Resets state to default values and changes the "currentLvl" state variable accordingly
+  nextLevel = () => {
+    this.setState(
+      {
+        currentLvl: this.state.currentLvl + 1,
+        lvlData: {},
+        moveBlockOn: false,
+        directions: [],
+        currentPositionX: 1,
+        currentPositionY: 1,
+        currentPathIteration: 0,
+        pathToMove: [],
+        fail: false,
+        success: false
+      },
+      () => {
+        this.getLevelData();
+      }
+    );
+  };
+  restartLevel = () => {
+    this.setState(
+      {
+        currentLvl: this.state.currentLvl,
+        lvlData: {},
+        moveBlockOn: false,
+        directions: [],
+        currentPositionX: 1,
+        currentPositionY: 1,
+        currentPathIteration: 0,
+        pathToMove: [],
+        fail: false,
+        success: false
+      },
+      () => {
+        this.getLevelData();
+      }
+    );
+  };
+
   updateDirections = val => {
     this.setState({
       directions: [...this.state.directions, val]
     });
   };
 
-  turnOnMoveBlock = () => {
+  runGame = () => {
     this.setState({
       moveBlockOn: true
     });
@@ -283,7 +299,7 @@ class ContextProvider extends Component {
         value={{
           ...this.state,
           updateDirections: this.updateDirections,
-          turnOnMoveBlock: this.turnOnMoveBlock,
+          runGame: this.runGame,
           nextLevel: this.nextLevel,
           restartLevel: this.restartLevel,
           clearBoard: this.clearBoard

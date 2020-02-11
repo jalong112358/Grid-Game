@@ -6,12 +6,18 @@ export default function Success() {
   return (
     <Context.Consumer>
       {context => {
-        const { nextLevel } = context;
+        const { nextLevel, currentLvl, time } = context;
 
         return (
           <div id="success" className="modal">
             <h1>LEVEL COMPLETE</h1>
-            <button onClick={nextLevel}>NEXT LEVEL</button>
+            <p>
+              Congrats! You passed level {currentLvl} with {time} seconds to
+              spare.
+            </p>
+            <button onClick={nextLevel} style={{ marginTop: "10px" }}>
+              NEXT LEVEL
+            </button>
           </div>
         );
       }}
